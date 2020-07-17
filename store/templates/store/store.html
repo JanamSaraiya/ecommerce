@@ -1,0 +1,41 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+<div class="row">
+     {% for product in products %}
+     <div class="col-lg-4">
+          <img src="{{product.imageURL}}" alt="" class="thumbnail">
+          <div class="box-element product">
+               <h6><strong>{{product.name}}
+                    {% for item in request.user.customer.order_set.first.orderitem_set.all %}
+               {% if product == item.product %}
+               <i class="fas fa-shopping-cart"></i>
+               {% endif %}
+               {% endfor %}
+               </strong></h6>
+               
+               <hr>
+               <!-- when we have to use django add cart action this will use -->
+               <form method='POST' action="">
+                    {% csrf_token %}
+                    <input hidden name="product" type="text" value="{{product.id}}">
+                    <button type="submit" class="btn btn-outline-primary add-btn update-cart"><i class="fas fa-plus"></i></button>
+               </form>
+
+               <!--This for JS add cart action-->
+               <!-- <button data-product="{{product.id}}" data-action="add" class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button> -->
+               <!--end-->
+
+               <a href="" class="btn btn-outline-success" style="display: inline-block; ">View</a>
+               <p style="display: inline-block; float:right; margin-top: 10px; "><strong>₹{{product.price}}</strong>
+               </p>
+               <p>
+
+
+               </p>
+          </div>
+     </div>
+     {% endfor %}
+
+</div>
+{% endblock %}
